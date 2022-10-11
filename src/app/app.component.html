@@ -1,0 +1,39 @@
+<div class="container">
+  <h1> ngx-scanner-qrcode </h1>
+
+  <!-- ngx-scanner-qrcode -->
+  <ngx-scanner-qrcode [isAuto]="true" #action="scanner" (error)="onError($event)"></ngx-scanner-qrcode>
+
+  <!-- data  -->
+  <p class="data">{{ action.data | async }}</p>
+
+  <!-- Loading -->
+  <p *ngIf="action.isLoading">⌛ Loading...</p>
+
+  <!-- toggleCamera -->
+  <button (click)="handle(action, 'toggleCamera')" class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart" [disabled]="action.isLoading">
+    <img *ngIf="!action.isStart" src="https://img.icons8.com/ios/50/000000/no-camera--v2.png" width="30px"/>
+    <img *ngIf="action.isStart" src="https://img.icons8.com/ios/50/000000/no-camera--v1.png" width="30px"/>
+  </button>
+
+  <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart" [disabled]="action.isLoading" (click)="handle(action, 'start')">Start</button>
+  <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart" [disabled]="action.isLoading" (click)="handle(action, 'play')">Play</button>
+  <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart" [disabled]="action.isLoading" (click)="handle(action, 'pause')">Pause</button>
+  <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart" [disabled]="action.isLoading" (click)="handle(action, 'stop')">Stop</button>
+  <button class="btn" [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart" [disabled]="action.isLoading" (click)="action.download('gx-scanner-qrcode')">Cap</button>
+
+  <br>
+  
+  <!-- For select files -->
+  <input #file type="file" (change)="onSelects(file.files)" [multiple]="'multiple'" [accept]="'.jpg, .png, .gif, .jpeg'" class="btn btn-success my-2"/>
+
+  <ol>
+    <li *ngFor="let row of selectedFiles">
+      <ngx-scanner-qrcode #action="scanner" [src]="row.base64 || ''"> 
+        <p class="data">{{ action.data | async }}</p>
+      </ngx-scanner-qrcode>
+    </li>
+  </ol>
+
+  <h5 class="mt-4">Author: DaiDH</h5>
+</div>
